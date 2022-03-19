@@ -1,67 +1,65 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+Widget Contain(double height, Widget child, Color color) {
+  return Container(
+    child: child,
+    height: height,
+    color: color,
+  );
+}
 
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    Color _randomColor =
+        Colors.primaries[Random().nextInt(Colors.primaries.length)];
+
+    Color colors = _randomColor;
+    void _rcTap() {
+      setState(() {
+        colors = _randomColor;
+      });
+    }
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        
-      ),
-      body: Center(
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('First App'),
+        ),
+        body: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: InkWell(
+                    onTap: _rcTap,
+                    child: Contain(200, Text('1'), colors),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Contain(200, Text('2'), colors),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Contain(200, Text('3'), colors),
+                ),
+              ],
+            ),            
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
