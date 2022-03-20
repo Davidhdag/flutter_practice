@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,18 +22,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    //red = 0xFFF44336
-    //pink = 0xFFE91E63
-    //purple = 0xFF9C27B0
-    // blue = 0xFF2196F3
-    //green = 0xFF4CAF50
-    List<String> questions = [
-      'Is that color blue?',
-      'Is that color red?',
-      'Is that color green?',
-      'Is that color pink?',
-      'Is that color purple?'
-    ];
+    Map<String, String> colorMap = {
+      'blue': '4280391411',
+      'red': '4294198070',
+      'green': '4283215696',
+      'pink': '4293467747',
+      'purple': '4288423856',
+    };
+    List cList = colorMap.keys.toList();
+
     Color _randomColor =
         Colors.primaries[Random().nextInt(Colors.primaries.length)];
 
@@ -46,13 +41,45 @@ class _MyAppState extends State<MyApp> {
       });
     }
 
-    String Test(Color color) {
-      if (colors.toString() == '0xFFF44336') {
-        return 'Red';
+    String colorList = cList[Random().nextInt(4)];
+
+    bool Test(Color color) {
+      if (colorMap['${colorList}'] == colors.value.toString()) {
+        return true;
       } else {
-        return 'No red';
+        return false;
       }
     }
+
+    // Future<void> _showDialog() async {
+    //   await showDialog(
+    //     context: context,
+    //     builder: (ctx) => AlertDialog(
+    //       title: Text('Are you sure?'),
+    //       content: Text('Is that color realy $colorList?'),
+    //       actions: [
+    //         TextButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Text(
+    //             'Yes',
+    //             style: TextStyle(color: colors),
+    //           ),
+    //         ),
+    //         TextButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Text(
+    //             'No',
+    //             style: TextStyle(color: colors),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // }
 
     return MaterialApp(
       home: Scaffold(
@@ -67,32 +94,33 @@ class _MyAppState extends State<MyApp> {
               children: [
                 GestureDetector(
                   onTap: _rcTap,
-                  child: Contain(200, Text('1'), colors),
+                  child: Contain(200, Text(colorList), colors),
                 ),
               ],
             ),
-            Text(questions[Random().nextInt(4)]),
+            Text('Is that color $colorList?'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {                    
-                  },
                   child: Text(
                     'Yes',
                     style: TextStyle(
                       color: colors,
                     ),
                   ),
+                  onPressed: () {
+                    // _showDialog();
+                  },
                 ),
                 TextButton(
-                  onPressed: () {},
                   child: Text(
                     'No',
                     style: TextStyle(
                       color: colors,
                     ),
                   ),
+                  onPressed: () {},
                 ),
               ],
             ),
